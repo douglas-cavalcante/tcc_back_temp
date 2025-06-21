@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\StudentRepository;
+use App\Http\Repositories\TeacherRepository;
 use App\Mail\SendEmailNewPassword;
+use App\Models\Student;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,6 +17,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+    private TeacherRepository $teacherRepository;
+    private StudentRepository $studentRepository;
+
+    public function __construct(
+        TeacherRepository $teacherRepository,
+        StudentRepository $studentRepository
+    )
+    {
+        $this->teacherRepository = $teacherRepository;
+        $this->studentRepository = $studentRepository;
+    }
+    
     public function store(Request $request)
     {
         try {
@@ -26,6 +41,12 @@ class UserController extends Controller
             ]);
 
             $user = User::create($data);
+
+            if($data['role'] == 'TEACHER') {
+                $this->teacherRepository->store([$data, $user->id]);
+            } else if($data['role'] == 'STUDENT') { 
+                $this->studentRepository->store([$data, 'user_id' => $user->id]);
+            }
 
             return $user;
         } catch (Exception $exception) {

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Repositories\SubjectRepository;
+
 
 class SubjectController extends Controller
 {
@@ -37,7 +39,7 @@ class SubjectController extends Controller
 
             return $subject;
         } catch(Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+            return $this->error($exception->getMessage(), 500);
         }
     }
 
@@ -57,6 +59,6 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         $this->subjectRepository->destroy($id);
-        return ResponseClass::sendResponse('Disciplina deletada com sucesso', '', 204);
+        return response()->json('Disciplina deletada com sucesso', 204);
     }
 }
