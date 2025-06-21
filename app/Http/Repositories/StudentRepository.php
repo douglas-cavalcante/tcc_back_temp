@@ -3,34 +3,34 @@
 namespace App\Http\Repositories;
 
 use App\Interfaces\StudentRepositoryInterface;
-use App\Models\Subject;
+use App\Models\Student;
 
 class StudentRepository implements StudentRepositoryInterface
 {
 
     public function all()
     {
-        return Subject::all();
+        return Student::all();
     }
 
     public function store($data)
     {
-        return Subject::create($data);
+        return Student::create($data);
     }
 
     public function find($id)
     {
-        return Subject::findOrFail($id);
+        return Student::findOrFail($id);
     }
 
     public function update($data, $id)
     {
-        $subject = Subject::whereId($id)->update($data);
+        return Student::whereId($id)->update($data);
     }
 
     public function destroy($id)
     {
-        Subject::destroy($id);
+        Student::destroy($id);
     }
 }
 

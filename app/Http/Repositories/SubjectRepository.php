@@ -25,7 +25,7 @@ class SubjectRepository implements SubjectRepositoryInterface
 
     public function update($data, $id)
     {
-        $subject = Subject::whereId($id)->update($data);
+        return Subject::whereId($id)->update($data);
     }
 
     public function destroy($id)

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\StudentRepository;
 use App\Http\Repositories\TeacherRepository;
 use App\Mail\SendEmailNewPassword;
-use App\Models\Student;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
