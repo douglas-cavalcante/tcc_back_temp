@@ -93,7 +93,8 @@ class QuestionController extends Controller
         return response()->json('Disciplina deletada com sucesso', 204);
     }
 
-    public function answerQuestion(Request $request) {
+    public function answerQuestion(Request $request)
+    {
         try {
             $question = $this->questionRepository->find($request->question_id);
             $is_correct = $question->correct_item == $request->awnser;
