@@ -3,16 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\QuestionRepository;
+use App\Http\Repositories\QuestionStudentRepository;
+use App\Http\Repositories\StudentRepository;
+use App\Http\Repositories\StudentWalletRepository;
 use Exception;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
     private QuestionRepository $questionRepository;
+    private StudentRepository $studentRepository;
+    private QuestionStudentRepository $questionStudentRepository;
+    private StudentWalletRepository $studentWalletRepository;
 
-    public function __construct(QuestionRepository $questionRepository)
+    public function __construct(
+        QuestionRepository $questionRepository,
+        StudentRepository $studentRepository,
+        QuestionStudentRepository $questionStudentRepository,
+        StudentWalletRepository $studentWalletRepository
+    )
     {
         $this->questionRepository = $questionRepository;
+        $this->studentRepository = $studentRepository;
+        $this->questionStudentRepository = $questionStudentRepository;
+        $this->studentWalletRepository = $studentWalletRepository;
     }
 
     public function all()
@@ -78,6 +92,34 @@ class QuestionController extends Controller
     {
         $this->questionRepository->destroy($id);
         return response()->json('Disciplina deletada com sucesso', 204);
+    }
+
+    public function awnserQuestion(Request $request) {
+        try {
+            $question = $this->questionRepository->find($request->question_id);
+            $is_correct = $question->correct_item == $request->awnser;
+
+            $data = [
+                'student_id' => $request->student_id,
+                'question_id' => $request->question_id,
+                'is_correct' => $is_correct,
+            ];
+
+            $questionStudent = $this->questionStudentRepository->store($data);
+            
+            $data = [
+                'student_id' => $request->student_id,
+                'amount' => $question->amount,
+                'type' => $is_correct ? 'DEPOSIT':'WITHDRAW',
+                'description'=> $request->description,
+            ];
+            
+            $studentWallet = $this->studentWalletRepository->store($data);
+            
+            return response()->json([$questionStudent, $studentWallet], 200);
+        } catch(Exception $exception) {
+
+        }
     }
 }
 

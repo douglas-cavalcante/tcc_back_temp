@@ -22,7 +22,7 @@ Route::get('subjects', [SubjectController::class, 'all']);
 
 Route::get('questions/{id}', [QuestionController::class, 'find']);
 Route::get('questions/subject/{id}', [QuestionController::class, 'findAllBySubjectId']);
-
+Route::post('questions/awnser', [QuestionController::class,'awnserQuestion']);
 Route::middleware('auth:sanctum')->group(function () {
 
 });
