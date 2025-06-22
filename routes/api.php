@@ -15,14 +15,18 @@ Route::post('recovery-password', [UserController::class, 'recoveryPassword']);
 * Subject Routes
 */
 Route::get('subjects', [SubjectController::class, 'all']);
+Route::post('subjects', [SubjectController::class, 'store']);
 
 /*
 * Question Routes
 */
-
+Route::get('questions', [QuestionController::class, 'all']);
 Route::get('questions/{id}', [QuestionController::class, 'find']);
 Route::get('questions/subject/{id}', [QuestionController::class, 'findAllBySubjectId']);
-Route::post('questions/awnser', [QuestionController::class,'awnserQuestion']);
+Route::post('questions/', [QuestionController::class, 'store']);
+Route::post('questions/awnser', [QuestionController::class, 'awnserQuestion']);
+Route::put('questions/edit/{id}', [QuestionController::class,'update']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
 });
