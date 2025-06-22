@@ -50,7 +50,6 @@ class QuestionController extends Controller
             $data = $request->all();
 
             $request->validate([
-                'name' => 'string|required',
                 'description' => 'string|required',
                 'item_a' => 'string|required',
                 'item_b' => 'string|required',
@@ -94,7 +93,7 @@ class QuestionController extends Controller
         return response()->json('Disciplina deletada com sucesso', 204);
     }
 
-    public function awnserQuestion(Request $request) {
+    public function answerQuestion(Request $request) {
         try {
             $question = $this->questionRepository->find($request->question_id);
             $is_correct = $question->correct_item == $request->awnser;
@@ -118,7 +117,7 @@ class QuestionController extends Controller
             
             return response()->json([$questionStudent, $studentWallet], 200);
         } catch(Exception $exception) {
-
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 }
