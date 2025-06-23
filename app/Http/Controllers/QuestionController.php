@@ -70,7 +70,7 @@ class QuestionController extends Controller
     {
         try {
             $data = [
-                'description' => $request->name,
+                'description' => $request->description,
                 'item_a' => $request->item_a,
                 'item_b' => $request->item_b,
                 'item_c' => $request->item_c,
@@ -97,7 +97,7 @@ class QuestionController extends Controller
     {
         try {
             $question = $this->questionRepository->find($request->question_id);
-            $is_correct = $question->correct_item == $request->awnser;
+            $is_correct = $question->correct_item == $request->answer;
 
             $data = [
                 'student_id' => $request->student_id,
@@ -109,9 +109,9 @@ class QuestionController extends Controller
             
             $data = [
                 'student_id' => $request->student_id,
-                'amount' => $question->amount,
+                'amount' => $is_correct ? $question->amount : 10.0,
                 'type' => $is_correct ? 'DEPOSIT':'WITHDRAW',
-                'description'=> $request->description,
+                'description'=> 'Teste',
             ];
             
             $studentWallet = $this->studentWalletRepository->store($data);

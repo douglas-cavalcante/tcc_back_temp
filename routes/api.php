@@ -38,7 +38,7 @@ Route::post('store/recover', [StoreController::class, 'recoverItem']);
 /**
  * Student Routes
  */
-Route::get('student/balance/{id}', [StudentController::class, 'balance']);
+Route::get('students/balance/{id}', [StudentController::class, 'balance']);
 
 Route::middleware('auth:sanctum')->group(function () {
 

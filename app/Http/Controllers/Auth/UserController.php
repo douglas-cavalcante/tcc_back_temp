@@ -42,9 +42,9 @@ class UserController extends Controller
             $user = User::create($data);
 
             if($data['role'] == 'TEACHER') {
-                $this->teacherRepository->store([$data, $user->id]);
+                $this->teacherRepository->store([...$data, 'user_id' => $user->id]);
             } else if($data['role'] == 'STUDENT') { 
-                $this->studentRepository->store([$data, 'user_id' => $user->id]);
+                $this->studentRepository->store([...$data, 'user_id' => $user->id]);
             }
 
             return $user;

@@ -31,7 +31,9 @@ class QuestionRepository implements QuestionRepositoryInterface
 
     public function update($data, $id)
     {
-        return Question::whereId($id)->update($data);
+        $question = Question::findOrFail($id);
+        $question->update($data);
+        return $question;
     }
 
     public function destroy($id)
