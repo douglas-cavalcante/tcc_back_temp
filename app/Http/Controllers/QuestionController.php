@@ -51,12 +51,15 @@ class QuestionController extends Controller
 
             $request->validate([
                 'description' => 'string|required',
+                'topic'=> 'string|required',
                 'item_a' => 'string|required',
                 'item_b' => 'string|required',
                 'item_c' => 'string|required',
                 'item_d' => 'string|required',
                 'item_e' => 'string',
                 'correct_item' => 'string|required',
+                'explanation_correct'=> 'string|required',
+                'explanation_incorrect'=> 'string|required'
             ]);
 
             return $this->questionRepository->store($data);
@@ -71,12 +74,15 @@ class QuestionController extends Controller
         try {
             $data = [
                 'description' => $request->description,
+                'topic'=> $request->topic,
                 'item_a' => $request->item_a,
                 'item_b' => $request->item_b,
                 'item_c' => $request->item_c,
                 'item_d' => $request->item_d,
                 'item_e' => $request->item_e,
                 'correct_item' => $request->correct_item,
+                'explanation_correct'=> $request->explanation_correct,
+                'explation_incorrect'=> $request->explanation_incorrect,
                 'subject_id' => $request->subject_id,
                 'amount' => $request->amount
             ];
@@ -107,11 +113,15 @@ class QuestionController extends Controller
 
             $questionStudent = $this->questionStudentRepository->store($data);
             
+            $wallet_description = sprintf('%s de %01.2f por %s a questão',
+        $is_correct ? 'Deposito':'Saque',
+                $is_correct ? 'acertar':'errar'
+            );
             $data = [
                 'student_id' => $request->student_id,
                 'amount' => $is_correct ? $question->amount : 10.0,
                 'type' => $is_correct ? 'DEPOSIT':'WITHDRAW',
-                'description'=> 'Teste',
+                'description'=> $wallet_description,
             ];
             
             $studentWallet = $this->studentWalletRepository->store($data);

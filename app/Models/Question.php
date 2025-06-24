@@ -12,11 +12,14 @@ class Question extends Model
 
     protected $fillable = [
         'description',
+        'topic',
         'item_a',
         'item_b',
         'item_c',
         'item_d',
         'item_e',
+        'explanation_correct',
+        'explanation_incorrect',
         'correct_item',
         'subject_id',
         'amount'

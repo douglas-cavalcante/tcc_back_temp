@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('description');
+            $table->string('topic');
             $table->string('item_a');
             $table->string('item_b');
             $table->string('item_c');
             $table->string('item_d');
             $table->string('item_e')->nullable(true);
             $table->string('correct_item');
+            $table->string('explanation_correct');
+            $table->string('explanation_incorrect');
             $table->unsignedBigInteger('subject_id');
             $table->foreign('subject_id')->references('id')->on('subjects');
             $table->integer('amount')->unsigned();

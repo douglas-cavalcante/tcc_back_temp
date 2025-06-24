@@ -54,8 +54,8 @@ class StoreController extends Controller
             $student_balance = $this->studentWalletRepository->studentBalance($request->student_id);
             $store_item = $this->storeRepository->find($request->store_id);
 
-            if($student_balance - $store_item->price < 0 ) { 
-                return $this->error('Saldo insuficiente',500);
+            if($student_balance < $store_item->price) { 
+                return $this->error('Saldo insuficiente', 400);
             }
 
             $store_student_data = [
@@ -65,11 +65,16 @@ class StoreController extends Controller
 
             $store_student = $this->storeStudentRepository->store($store_student_data);
 
+            $wallet_description = sprintf("Saque de %01.2f por resgate do item %s na loja",
+        $store_item->price,
+                $store_item->name
+            );
+            
             $student_wallet_data = [
                 'student_id' => $request->student_id,
                 'amount' => $store_item->price,
                 'type' => 'WITHDRAW',
-                'description' => $request->description
+                'description' => $wallet_description
             ];
 
             $student_wallet = $this->studentWalletRepository->store($student_wallet_data);

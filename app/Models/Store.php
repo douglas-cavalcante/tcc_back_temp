@@ -9,8 +9,6 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $table = "store";
-
     protected $fillable = [
         'name',
         'url_cover',
