@@ -36,12 +36,12 @@ class AuthController extends Controller
 
             $token = $request->user()->createToken('simple');
 
-            $profile = Role::find($request->user()->role_id);
+            //$profile = Role::find($request->user()->role_id);
 
             return $this->response('Autorizado', 200, [
                 'name' => $name,
                 'token' => $token->plainTextToken,
-                'role' => $profile->name
+                //'role' => $profile->name
 
             ]);
 
